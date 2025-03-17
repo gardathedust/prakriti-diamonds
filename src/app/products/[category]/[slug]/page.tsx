@@ -5,12 +5,23 @@ import Image from 'next/image';
 import { products } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
-export default function ProductPage({
-  params,
-}: {
-  params: { category: string; slug: string };
-}) {
+interface ProductPageProps {
+  params: {
+    category: string;
+    slug: string;
+  };
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  return {
+    title: `${params.slug} - Prakriti Diamonds`,
+    description: `View our beautiful ${params.slug} from our ${params.category} collection`,
+  };
+}
+
+export default function ProductPage({ params }: ProductPageProps) {
   const product = products.find((p) => p.href === `/products/${params.category}/${params.slug}`);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
