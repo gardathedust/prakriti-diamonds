@@ -32,8 +32,15 @@ export default function ProductPage({ params }: ProductPageProps) {
   }
 
   const handleAddToCart = () => {
-    addItem(product, quantity);
-    // You could add a toast notification here
+    // Update product with quantity before adding to cart
+    const productWithQuantity = {
+      ...product,
+      id: product.id.toString(),
+      price: parseFloat(product.price.replace('$', '').replace(',', '')), // Convert price string to number
+      quantity,
+      image: product.imageSrc
+    };
+    addItem(productWithQuantity);
   };
 
   return (
